@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+
+#
+# phplink - a tool to link against a specific PHP version
+#
+
+set -eu
+
+function help {
+  echo -e "\nphplink - a tool to link against a specific PHP version\n"
+  echo -e "Usage: phplink <php-version>"
+  echo -e "\nExample: phplink 8.1"
+  echo
+  echo -e "Options:\n"
+  echo "-h, --help: print this help"
+  echo "-l, --list: show available PHP versions"
+  echo
+}
+
+function list_versions
+{
+  ls -1 /usr/bin/php* | grep -oE '[0-9].*'
+}
+
+if [[ $# -eq 0 || $1 == "-h" || $1 == "--help" ]]; then
+  help
+  exit 0
+fi
+
+if [[ $1 == "-l" || $1 == "--list" ]]; then
+  echo -e "\nAvailable PHP versions:\n"
+  list_versions
+  echo
+  exit 0
+fi
+
+if [[ $EUID -ne 0 ]]; then
+  echo -e "\nError: This script must be run as root user\n"
+  exit 1
+fi
+
+php_version=$1
+
+if [[ -z "${php_version}" ]]; then
+  echo -e "\nError: An PHP version must be specified!\n"
+  exit 1
+fi
+
+target="/usr/bin/php${php_version}"
+
+if [[ ! -f "${target}" ]]; then
+  echo -e "\nError: PHP version '${php_version}' does not exist!"
+  echo -e "Below are the available PHP versions:\n"
+  list_versions
+  echo
+  exit 1
+fi
+
+rm /etc/alternatives/php &> /dev/null
+ln -s "${target}" /etc/alternatives/php && echo "PHP version ${php_version} was enabled"
+exit 0
