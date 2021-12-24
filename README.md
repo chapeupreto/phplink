@@ -10,6 +10,8 @@ For instance, say we have locally installed PHP versions `7.4`, `8.0` and `8.1` 
 our current PHP `cli` is linked/pointed to version `7.4` and we want to easily switch to version `8.1`.
 By using `phplink`, one could simply do `sudo phplink 8.1` and everything should work just fine.
 
+[![asciicast](https://asciinema.org/a/5Hw4LRgXX9eCnWT9xMqw01f7x.svg)](https://asciinema.org/a/5Hw4LRgXX9eCnWT9xMqw01f7x)
+
 ### Why?
 
 Because who needs Docker anyway?
