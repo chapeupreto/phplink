@@ -25,8 +25,7 @@ Because who needs Docker anyway?
 Below is the easiest way to install this tool:
 
 ```bash
-git clone https://github.com/chapeupreto/phplink
-cd phplink
+wget https://raw.githubusercontent.com/chapeupreto/phplink/main/phplink
 sudo mv -v phplink /usr/local/bin
 chmod +x /usr/local/bin/phplink
 ```
