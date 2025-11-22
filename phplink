@@ -17,10 +17,25 @@ function help {
   echo
 }
 
+function get_current_php_version
+{
+  path=$(readlink -f /usr/bin/php)
+  version=${path#/usr/bin/php}
+
+  echo "${version}"
+}
+
 function list_versions
 {
+  current_version=$(get_current_php_version)
+
   for executable in /usr/bin/php[0-9].[0-9]; do
-    printf "%s\n" "${executable#/usr/bin/php}"
+    version="${executable#/usr/bin/php}"
+    if [[ "${version}" == "${current_version}" ]]; then
+      printf "%s (using)\n" "${version}"
+    else
+      printf "%s\n" "${version}"
+    fi
   done
 }
 
