@@ -19,7 +19,9 @@ function help {
 
 function list_versions
 {
-  ls -1 /usr/bin/php* | grep -oE '[0-9].*'
+  for executable in /usr/bin/php[0-9].[0-9]; do
+    printf "%s\n" "${executable#/usr/bin/php}"
+  done
 }
 
 if [[ $# -eq 0 || $1 == "-h" || $1 == "--help" ]]; then
